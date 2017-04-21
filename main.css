@@ -1,0 +1,14 @@
+header{
+    text-align: center;
+}
+blockquote { color: blue ; }
+h1, h3 { color: rgba(100,0,50,50); }
+strong { color: #00f; color: #f00;}
+/* p { color: navy } */
+table, th, td {
+   border: 1px solid black;
+}
+img{
+    width: 100%;
+    height: auto;
+}
