@@ -8,6 +8,30 @@ function launch(){
     d3.select('#ipt_c04_hw1').text(r);
 }
 
+function genStaff(){
+    var s = d3.select('#svg');
+    s
+        .style({'background':'oldlace'})
+        .append('text')
+        .attr({
+            'x': 135,
+            'y': 200,
+            'font-size': 40,
+            'font-family': 'arial'
+        })
+        .text('A');
+    for(var i=0;i<5;i++){
+        s
+            .append('rect')
+            .attr({
+                'x': 0,
+                'y': 40+i*30,
+                'width': 300,
+                'height': 5
+            });
+    }
+}
+
 function genBar(){
     d3.select('#svg_c04_pr2')
         .append('svg')
@@ -80,6 +104,7 @@ function genLine(){
 }
 
 $(function(){
+    genStaff();
     genBar();
     genLine();
     $('#btn_c04_hw1').on('click', launch);
