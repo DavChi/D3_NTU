@@ -5,7 +5,19 @@ blockquote { color: blue ; }
 h1, h3 { color: rgba(100,0,50,50); }
 strong { color: #00f; color: #f00;}
 /* p { color: navy } */
-table, th, td {
+table{
+    border: 0;
+}
+table td{
+    border-bottom: 5px double gray;
+}
+td > article{
+    border: 5px solid white;
+}
+article table{
+   border: 1px solid black;
+}
+article table td,th{
    border: 1px solid black;
 }
 img{
