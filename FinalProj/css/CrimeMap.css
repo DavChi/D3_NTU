@@ -39,21 +39,32 @@ html, body{
     position: absolute;
 }
 .stations svg {
-    width: 100px;
+    width: auto;
     height: 20px;
     padding-right: 100px;
-    font: 10px sans-serif;
+    font-family: DFKai-sb,sans-serif;
+    padding-top:3px;
+}
+.stations svg:hover {
+    background: -webkit-linear-gradient(left,rgba(0, 0, 0, 0),rgba(184, 173, 255, 0.35));
+    background: -o-linear-gradient(right,rgba(0, 0, 0, 0),rgba(184, 173, 255, 0.35));
+    background: -moz-linear-gradient(right,rgba(0, 0, 0, 0),rgba(184, 173, 255, 0.35));
+    background: linear-gradient(to right,rgba(0, 0, 0, 0),rgba(184, 173, 255, 0.35));
+    /*     background-color: rgba(184, 173, 255, 0.15); */
 }
 .stations circle {
     fill: rgba(255, 255, 255, 0);
     stroke: none;
 }
-.stations circle:hover {
-    /*stroke: red;*/
-    stroke: rgba(184, 173, 255, 0.55);
-    stroke-width: 1.5px;
-}
-.overlay{ position: fixed; top: 0; left: 0; width: 30%; height: 100%; z-index: 2; background-color: rgba(0,0,0,0.5); /*暗淡的背景*/ }
+
+.overlay{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 30%;
+    height: 100%;
+    z-index: 2;
+    background-color: rgba(0,0,0,0.5); /*暗淡的背景*/ }
 /*著作权归作者所有。 商业转载请联系作者获得授权,非商业转载请注明出处。*/
 /*原文: https://www.w3cplus.com/css/css-overlay-techniques.html © w3cplus.com*/
 #EvYear{

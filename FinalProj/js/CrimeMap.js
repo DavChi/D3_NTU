@@ -445,7 +445,7 @@ function Map(mapID,LatLng){
                     .attr({
                         x:padding + 20,
                         y: padding,
-                        "font-size": "13px",
+                        "font-size": "20px",
                         opacity: 0,
                         fill: 'rgba(184, 173, 255, 0.55)'
                     })
