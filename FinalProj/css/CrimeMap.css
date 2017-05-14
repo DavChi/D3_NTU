@@ -43,7 +43,7 @@ html, body{
     height: 20px;
     padding-right: 100px;
     font-family: DFKai-sb,sans-serif;
-    padding-top:3px;
+    padding-top:6px;
 }
 .stations svg:hover {
     background: -webkit-linear-gradient(left,rgba(0, 0, 0, 0),rgba(184, 173, 255, 0.35));
