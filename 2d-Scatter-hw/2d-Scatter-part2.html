@@ -1,0 +1,209 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Untitled Document</title>
+    <script src="https://d3js.org/d3.v3.js"></script>
+    <style>
+        body{
+            background: #eee;
+        }
+        .axis path, .axis line{
+            fill: none;
+            stroke: black;
+            shape-rendering: auto;
+        }
+        .axis text{
+            font-size: 12px;
+        }
+        #tooltip{
+          position: absolute;
+          /* left: 20px; */
+          /* top:  100px; */
+          background: #fff;
+          width: 150px;
+          height: auto;
+          padding: 0px 10px;
+          border-radius: 5px;
+          box-shadow: 5px 5px 10px rgba(0,0,0,0.3);
+        }
+         #tooltip.hidden{
+          display: none;
+        } 
+    </style>
+</head>
+<body>
+     <div id="tooltip" class="hidden">
+      <p><strong id="city">Hello</strong></p>
+      <p id="industry">tooltip</p>
+    </div>
+    <script>
+        var w = 900;
+        var h = 600;
+        var padding = 90;
+        var letterList = ["A","B","C","D","E","F","G","H","I","J","K","M","N","O","P","Q","T","U","V","W","X","Z"];
+        
+        svg();       
+    
+        d3.csv("invoice.csv", function(dataSet){         
+           bind(dataSet);
+           render(dataSet);
+           btnList(dataSet);
+        });
+        
+        
+        function svg(){
+            d3.select("body").append("svg").attr({
+                width: w,
+                height: h
+            });
+            d3.select("svg").append("g").append("rect").attr({
+                width: "100%",
+                height: "100%",
+                fill: "white"
+            });
+            d3.select("svg").append("g").attr("id","axisX");
+            d3.select("svg").append("g").attr("id","axisY");
+        }
+        
+        function bind(dataSet){
+            var selection = d3.select("svg")
+                                .selectAll("circle")
+                                .data(dataSet);
+            selection.enter().append("circle");
+            selection.exit().remove();
+        }
+        function render(dataSet){
+          //比例尺們 xScale, yScale, rScale, fScale
+           var xScale = d3.time.scale()
+                    .domain([new Date(d3.min(dataSet, function(d){
+                        return new Date(d.date);
+                    })),new Date(d3.max(dataSet, function(d){
+                        return new Date(d.date);
+                    }))])
+                    .range([padding,w-padding]);
+           var yScale = d3.scale.linear()
+                    .domain([0,d3.max(dataSet, function(d){
+                        return +d.number;
+                    })])
+                    .range([h-padding,padding]);
+           var rScale = d3.scale.linear()
+                    .domain([d3.min(dataSet, function(d){
+                        return +d.amount;
+                    }),d3.max(dataSet, function(d){
+                        return +d.amount;
+                    })])
+                    .range([5,20]);
+           var fScale = d3.scale.category20();
+            
+           //開始畫圈圈
+           d3.selectAll("circle")
+              .attr({
+                cx: function(d){
+                  return xScale(new Date(d.date)); 
+                },
+                cy:function(d){
+                  return yScale(+d.number); 
+                },
+                r:function(d){
+                  return rScale(+d.amount); 
+                },
+                fill: function(d){
+                  return fScale(letterList.indexOf(d.cid));
+                }
+              })
+               .on('mouseover', function(d){
+                    var posX = d3.select(this).attr('cx'),
+                        posY = d3.select(this).attr('cy');
+                    var tooltip = d3.select('#tooltip').style({
+                        'left': (+posX+10)+'px',
+                        'top':  (+posY+10)+'px'
+                    });
+                    tooltip.select('#city').text(d.city);
+                    tooltip.select('#industry').text(d.industry);
+                    tooltip.classed('hidden',false);
+                })
+               .on('mouseout',function(d){
+                    d3.select('#tooltip').classed('hidden',true);
+           });
+            
+           //開始畫x,y軸線 
+            var xAxis = d3.svg.axis().scale(xScale).orient("bottom");
+            var yAxis = d3.svg.axis().scale(yScale).orient("left");
+            d3.select("svg")
+                .select("g#axisY")
+                .attr("class","axis")
+                .attr("transform", "translate("+(padding-10)+",0)")
+                .call(yAxis);
+            d3.select("svg")
+                .select("g#axisX")
+                .attr("class","axis")
+                .attr("transform", "translate(0,"+(h-padding+10)+")")
+                .call(xAxis);
+            
+            
+        }
+        function btnList(dataSet){
+            
+            //industryArr: 行業別陣列(包含重複項目)           
+            var industryArr = dataSet.map(function(d){
+               return d.industry;
+            });  
+            //uniqueIndustryArr: 行業別陣列(無重複項目) 
+            var uniqueIndustryArr = unique(industryArr);
+            
+            //filterIndustryArr: 行業別陣列(去除空白項目) 
+            var filterIndustryArr = uniqueIndustryArr.filter(function(d){
+               return d!=""; 
+            });
+            
+            //畫出按鈕們
+            var selection = d3.select("body")
+//                .append("div").selectAll("input")
+                .append('select')
+                .selectAll("option")
+                .data(filterIndustryArr);
+            
+            selection.enter()
+                .append('option')
+                .attr({
+                    'value': function(d){return d;}
+                })
+                .text(function(d){return d;});
+//                .append("input")
+//                .attr({
+//                    'type':'button',
+//                    'value': function(d){return d;}
+//                })
+//                .on("click",function(d){
+//                    //當行業別按鈕按下時執行
+//                    update(d);
+//                });
+            
+            d3.select('select').on('click', function(){
+                var value = d3.select('select').property('value');
+            });
+            
+            function update(industryName){
+                //過濾行業別符合者
+                var newDataSet = dataSet.filter(function(d){
+                    return d.industry===d.industryName;
+                });
+                //重新整理bind,render
+                bind(newDataSet);
+                render(newDataSet);
+            }
+            function unique(array){
+              var n = []; 
+              for(var i = 0; i < array.length; i++){
+                if (n.indexOf(array[i]) == -1){
+                    n.push(array[i]);
+                }
+              }
+              return n;
+            }
+        }
+    </script>
+
+</body>
+</html>

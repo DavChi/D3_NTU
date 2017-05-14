@@ -24,3 +24,11 @@ img{
     width: 100%;
     height: auto;
 }
+.axis path, .axis line{
+    fill: none;
+    stroke: black;
+    shape-rendering: auto
+}
+.axis text{
+    fill: red
+}

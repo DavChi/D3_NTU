@@ -111,8 +111,9 @@ function genTaipeiBar(){
             return d.amount>1000000000 && d.date==='2016/8/1' && d.cid==='A';//(d.city ==='台北市' || d.city==='臺北市');
         });
         
-        var xScale = d3.scale.linear().domain([100000000,10000000000]).range([0,100]);
-        
+//        var xScale = d3.scale.linear().domain([100000000,10000000000]).range([0,100]);
+        var xScale = d3.scale.linear().domain([d3.min(fData, function(d){return +d.amount;}),d3.max(fData, function(d){return +d.amount;})]).range([10,300]);
+
         for(var i in fData){
             s
                 .append('text')
@@ -132,6 +133,16 @@ function genTaipeiBar(){
                     'fill': 'red'
                 });
         }
+        var h = fData.length*20+20,
+            padding = 10;
+        var xAxis = d3.svg.axis().scale(xScale).orient('bottom')
+        .tickFormat(function(d){
+            return (d/1000000000)+'G';
+        }).ticks(5);
+        s.append('g').attr({
+				'class':'axis',
+				'transform':'translate('+(250-padding)+','+(h-padding)+')'
+			}).call(xAxis);
     });
     /*
     //d3.csv(filepath, preProcess, function(dataset){...};
@@ -141,7 +152,7 @@ function genTaipeiBar(){
     */
 }
 
-function genScore(arr){
+function genScore(){
     var arr = [85,60,99,49,77,82],
         txt = d3.select('#atc_c06_hw1'),
         s,
@@ -216,6 +227,25 @@ function genScore(arr){
     render();
 }
 
+function partyColor(){
+    var index = ['中國國民黨','民主進步黨','時代力量','無黨團結聯盟','親民黨'],
+        color = ['blue','green','orange','gray','yellow','請選擇'];
+    var xScale = d3.scale.ordinal()
+          .domain(index)
+          .range(color);
+
+    xScale(0);
+    xScale(1);
+    xScale(4);
+    xScale(3);
+    xScale(2);
+    xScale(5);
+    $('#sel_c07_hw1 select').change(function(e){
+        $('#sel_c07_hw1 p').text(xScale($(this).val()));
+//        console.log(xScale($(this).val()));
+    });
+}
+
 $(function(){
     genStaff();
     genBar();
@@ -223,4 +253,5 @@ $(function(){
     $('#btn_c04_hw1').on('click', launch);
     genTaipeiBar();
     genScore();
+    partyColor();
 })

@@ -1,0 +1,61 @@
+.axis path, .axis line{
+    fill: none;
+    stroke: #6b9a76;
+    shape-rendering: auto
+}
+.axis text{
+    fill: #d59563;
+    font-size: 12px;
+}
+#map{
+    height: 100%;
+    width: 100%;
+}
+html, body{
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background-color: #212a37;
+}
+.bar{
+    fill: #9ca5b3;
+    font-size: 12px;
+}
+.bar:hover {
+    /*fill: #9CA6B4 ;*/
+    fill: white ;
+    font-size: 18px;
+}
+.bar.selected{
+    fill: white ;
+}
+.path{
+    fill: none;
+    stroke: white;
+    stroke-width: 2;
+}
+
+.stations, .stations svg {
+    position: absolute;
+}
+.stations svg {
+    width: 100px;
+    height: 20px;
+    padding-right: 100px;
+    font: 10px sans-serif;
+}
+.stations circle {
+    fill: rgba(255, 255, 255, 0);
+    stroke: none;
+}
+.stations circle:hover {
+    /*stroke: red;*/
+    stroke: rgba(184, 173, 255, 0.55);
+    stroke-width: 1.5px;
+}
+.overlay{ position: fixed; top: 0; left: 0; width: 30%; height: 100%; z-index: 2; background-color: rgba(0,0,0,0.5); /*暗淡的背景*/ }
+/*著作权归作者所有。 商业转载请联系作者获得授权,非商业转载请注明出处。*/
+/*原文: https://www.w3cplus.com/css/css-overlay-techniques.html © w3cplus.com*/
+#EvYear{
+    position: fixed; top: 300px; height: 50%;
+}
