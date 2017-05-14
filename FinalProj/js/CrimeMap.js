@@ -130,6 +130,7 @@ function genBarSvg(n, k, dataSet) {
             })
             .transition()
             .duration(1500)
+            .delay(function(d,i){return 500+i*200;})
             .attr({
                 y: function(d){return yScale(d.values.length)-padding-5;}
             })
