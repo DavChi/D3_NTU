@@ -115,6 +115,7 @@ function genBarSvg(n, k, dataSet) {
             })
             .transition()
             .duration(1500)
+            .delay(function(d,i){return i*200;})
             .attr({
                 y: function(d){return yScale(d.values.length)-padding;},
                 height: function(d){return h-yScale(d.values.length);}
@@ -445,7 +446,7 @@ function Map(mapID,LatLng){
                     .attr({
                         x:padding + 20,
                         y: padding,
-                        "font-size": "20px",
+                        "font-size": "15px",
                         opacity: 0,
                         fill: 'rgba(184, 173, 255, 0.55)'
                     })
